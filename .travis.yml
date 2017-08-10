@@ -41,6 +41,7 @@ deploy:
   file:
     - release/electron-react-boilerplate_1.0.0_amd64.deb
     - release/electron-react-boilerplate-1.0.0-x86_64.AppImage
+    - "release/ElectronReact Setup 1.0.0.exe"
   skip_cleanup: true
   on:
     repo: robogroves/iotbp
