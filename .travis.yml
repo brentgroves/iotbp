@@ -1,42 +1,47 @@
 sudo: false
-
 language: node_js
-
 node_js:
-  - 8
-  - 7
-
+- 8
+- 7
 cache:
   yarn: true
   directories:
-    - node_modules
-    - app/node_modules
-
+  - node_modules
+  - app/node_modules
 addons:
   apt:
     sources:
-      - ubuntu-toolchain-r-test
+    - ubuntu-toolchain-r-test
     packages:
-      - g++-4.8
-      - icnsutils
-      - graphicsmagick
-      - xz-utils
-      - xorriso
-
+    - g++-4.8
+    - icnsutils
+    - graphicsmagick
+    - xz-utils
+    - xorriso
 install:
-  - export CXX="g++-4.8"
-  - yarn
-  - cd app && yarn && cd ..
-  - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16"
-
+- export CXX="g++-4.8"
+- yarn
+- cd app && yarn && cd ..
+- "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile
+  --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16"
 before_script:
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start &
-  - sleep 3
-
+- export DISPLAY=:99.0
+- sh -e /etc/init.d/xvfb start &
+- sleep 3
 script:
-  - node --version
-  - yarn lint
-  - yarn package
-  - yarn test
-  - yarn test-e2e
+- node --version
+- yarn lint
+- yarn package
+- yarn test
+- yarn test-e2e
+deploy:
+  provider: releases
+  api_key:
+    secure: V0P/ueX0AdKtVonMLVS7CKPqkIEMyeycUrCiCZFsu74p/nNzpyy4LWZYfOIWPNiuDKGnEXXq0JNg9pJyUEdC/G75CxGr65E44+NJC11PpNeCiVIfsS+N+1iB58L4c1Pur9lWOJjRTgpnmLOA9tDxF82ue7m8wylV6NgRcAroEIwOocczuVA5UZxk6a4+u20gq5w6xY1uphEI9JkehhMyQcuzc4AgIvePCwIEMDrOwj6M5pO9MahudyDXOkv5qP2q2IcnShIy7xqqAIpAJTO2C/xHCa6htGQgB8sQKr/gbFhPIILHjRua9PauH/Qhy4NCvXfXnSYQbBmzH0k0MP1VGRekxkHzaxLZJgp9/iHmQdqczx7zR8QhttOcKojSsaALj5AGFfeGB1iyT+jvWcnRq3QHE2Tdl33k57o2vEJiRj5EwtDPxj8HB65C/pK0pnx8HPLGPR6GgAzM1J73ZI+FI2Nr82+NMpjzzyqokpL6wN0bN1y3rqRU3h0EflJLu/kzTzwhWUz9rTpdIoENymxeEidl86UzAbZ9KUVKG4Cjb1nbRAv6x2q0KE+CtnbrHUUeXIcy1siaAm8Thas27YGuJxHFpF+4LNKZnw0oOHldF6pPXAku6bHRiIEl2pAj0iAkTrrZQ65XG6QRBagQBsoospJhQqoBppQ0bM1Lkv5sxSw=
+  file:
+    - release/electron-react-boilerplate_1.0.0_amd64.deb
+    - release/electron-react-boilerplate-1.0.0-x86_64.AppImage
+  skip_cleanup: true
+  on:
+    repo: robogroves/iotbp
+    tags: true
