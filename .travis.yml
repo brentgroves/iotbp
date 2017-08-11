@@ -1,7 +1,7 @@
 sudo: false
 os:
   - linux
-  - osx
+#  - osx
 language: node_js
 node_js:
 - 8
